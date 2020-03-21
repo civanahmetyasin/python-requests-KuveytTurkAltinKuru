@@ -1,38 +1,40 @@
 import requests
 from bs4 import BeautifulSoup
-import time
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-import matplotlib as style
 
-import numpy as np
-import matplotlib.pyplot as plt
-
-fig = plt.figure()
-ax1 = fig.add_subplot(1,1,1)
+from bokeh.driving import count
+from bokeh.models import ColumnDataSource
+from bokeh.plotting import curdoc, figure
 
 URL = 'https://www.kuveytturk.com.tr/finans-portali/'
 
-f = open ("veriler.txt","a+")
 
-plt.show()
 
-for x in range(6):
+UPDATE_INTERVAL = 500
+ROLLOVER = 500 # Number of displayed data points
+
+source = ColumnDataSource({"x": [], "y": []})
+
+@count()
+def update(x):
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     veriler = soup.find(class_='finans-portali')
     sinif = veriler.find_all('p')
-    bankaSatis = sinif[6].prettify().split('\n')[1]
-    bankaAlis = sinif[7].prettify().split('\n')[1]
-    
-    print (bankaSatis)
-    print (bankaAlis)
-    
-    plt.scatter(x, bankaSatis)
 
-    f.write(bankaSatis + "\n")
-    f.write(bankaAlis + "\n")
+    bankaAlis = sinif[6].prettify().split('\n')[1]
+    bankaAlis = round(float(bankaAlis.replace(',','.')),2)
     
-    time.sleep(3)
+    bankaSatis = sinif[7].prettify().split('\n')[1]
+    bankaSatis = round(float(bankaSatis.replace(',','.')),2)
+    
+    print(bankaAlis)
+    print(bankaSatis)
 
-f.close
+    source.stream({"x": [x], "y": [bankaAlis]}, rollover=ROLLOVER)
+
+p = figure()
+p.line("x", "y", source=source)
+
+doc = curdoc()
+doc.add_root(p)
+doc.add_periodic_callback(update, UPDATE_INTERVAL)
