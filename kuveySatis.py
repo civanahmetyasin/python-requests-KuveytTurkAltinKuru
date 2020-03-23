@@ -4,18 +4,22 @@ from bs4 import BeautifulSoup
 from bokeh.driving import count
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import curdoc, figure
+import datetime
 
 URL = 'https://www.kuveytturk.com.tr/finans-portali/'
 
 
 
 UPDATE_INTERVAL = 2000
-ROLLOVER = 500 # Number of displayed data points
+ROLLOVER = 10800 # Number of displayed data points
 
 source = ColumnDataSource({"x": [], "y": []})
 
 @count()
 def update(x):
+    tarihSaat = datetime.datetime.now()
+    verileriLogla = open("%d" % tarihSaat.year + "-" +"%d" % tarihSaat.month + "-" + "%d" % tarihSaat.day + ".txt","a")
+    
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
     veriler = soup.find(class_='finans-portali')
@@ -29,10 +33,11 @@ def update(x):
     
     print(bankaAlis)
     print(bankaSatis)
-
+    verileriLogla.write("%.2f" % bankaAlis +"+"+ "%.2f" % bankaSatis + "\n")
+    verileriLogla.close()
     source.stream({"x": [x], "y": [bankaSatis]}, rollover=ROLLOVER)
 
-p = figure(plot_width=1600, plot_height=400)
+p = figure(plot_width=1800, plot_height=400)
 p.line("x", "y", source=source,color='navy')
 
 doc = curdoc()

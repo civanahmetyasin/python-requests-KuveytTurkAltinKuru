@@ -10,7 +10,7 @@ URL = 'https://www.kuveytturk.com.tr/finans-portali/'
 
 
 UPDATE_INTERVAL = 2000
-ROLLOVER = 500 # Number of displayed data points
+ROLLOVER = 10800 # Number of displayed data points
 
 source = ColumnDataSource({"x": [], "y": []})
 
@@ -32,7 +32,7 @@ def update(x):
 
     source.stream({"x": [x], "y": [bankaAlis]}, rollover=ROLLOVER)
 
-p = figure(plot_width=1600, plot_height=400)
+p = figure(plot_width=1800, plot_height=400)
 p.line("x", "y", source=source,color='navy')
 
 doc = curdoc()
