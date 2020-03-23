@@ -27,8 +27,7 @@ def update(x):
     bankaSatis = sinif[7].prettify().split('\n')[1]
     bankaSatis = round(float(bankaSatis.replace(',','.')),2)
     
-    print(bankaAlis)
-    print(bankaSatis)
+    print("%.2f" % bankaAlis + " - " +"%.2f" % bankaSatis )
 
     source.stream({"x": [x], "y": [bankaAlis]}, rollover=ROLLOVER)
 

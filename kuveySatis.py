@@ -31,10 +31,12 @@ def update(x):
     bankaSatis = sinif[7].prettify().split('\n')[1]
     bankaSatis = round(float(bankaSatis.replace(',','.')),2)
     
-    print(bankaAlis)
-    print(bankaSatis)
+    print("%.2f" % bankaAlis + " - " +"%.2f" % bankaSatis )
+
+
     verileriLogla.write("%.2f" % bankaAlis +"+"+ "%.2f" % bankaSatis + "\n")
     verileriLogla.close()
+    
     source.stream({"x": [x], "y": [bankaSatis]}, rollover=ROLLOVER)
 
 p = figure(plot_width=1800, plot_height=400)
