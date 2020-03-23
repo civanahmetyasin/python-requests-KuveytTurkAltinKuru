@@ -30,7 +30,7 @@ def update(x):
     print(bankaAlis)
     print(bankaSatis)
 
-    source.stream({"x": [x], "y": [bankaAlis]}, rollover=ROLLOVER)
+    source.stream({"x": [x], "y": [bankaSatis]}, rollover=ROLLOVER)
 
 p = figure(plot_width=1600, plot_height=400)
 p.line("x", "y", source=source,color='navy')
