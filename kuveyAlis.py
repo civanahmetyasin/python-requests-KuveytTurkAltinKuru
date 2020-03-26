@@ -31,7 +31,9 @@ def update(x):
 
     source.stream({"x": [x], "y": [bankaAlis]}, rollover=ROLLOVER)
 
-p = figure(plot_width=1800, plot_height=400)
+p = figure(title="SATIS",plot_width=1800, plot_height=400,tools = "pan,wheel_zoom,box_zoom,reset,xpan,ypan,xwheel_zoom,ywheel_zoom,crosshair,hover,save")
+p.background_fill_color = 'black'
+p.background_fill_alpha = 0.2
 p.line("x", "y", source=source,color='navy')
 
 doc = curdoc()
