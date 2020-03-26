@@ -5,10 +5,11 @@ from bokeh.driving import count
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import curdoc, figure
 import datetime
+from playsound import playsound
 
 URL = 'https://www.kuveytturk.com.tr/finans-portali/'
 
-
+playsound('alarm.mp3')
 
 UPDATE_INTERVAL = 2000
 ROLLOVER = 10800 # Number of displayed data points
@@ -33,13 +34,16 @@ def update(x):
     
     print("%.2f" % bankaAlis + " - " +"%.2f" % bankaSatis )
 
+    if bankaSatis < 331.0:
+        playsound('alarm.mp3')
+        pass
 
     verileriLogla.write("%.2f" % bankaAlis +"+"+ "%.2f" % bankaSatis + "\n")
     verileriLogla.close()
     
     source.stream({"x": [x], "y": [bankaSatis]}, rollover=ROLLOVER)
 
-p = figure(title="ALIS", plot_width=1800, plot_height=400,tools = "pan,wheel_zoom,box_zoom,reset,xpan,ypan,xwheel_zoom,ywheel_zoom,crosshair,hover,save")
+p = figure(title="BANKA SATIS", plot_width=1800, plot_height=400,tools = "pan,wheel_zoom,box_zoom,reset,xpan,ypan,xwheel_zoom,ywheel_zoom,crosshair,hover,save")
 p.background_fill_color = 'black'
 p.background_fill_alpha = 0.3
 p.line("x", "y", source=source,color='navy')

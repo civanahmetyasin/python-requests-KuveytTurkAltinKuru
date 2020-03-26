@@ -4,10 +4,13 @@ from bs4 import BeautifulSoup
 from bokeh.driving import count
 from bokeh.models import ColumnDataSource
 from bokeh.plotting import curdoc, figure
+from playsound import playsound
+
 
 URL = 'https://www.kuveytturk.com.tr/finans-portali/'
 
 
+playsound('alarm.mp3')
 
 UPDATE_INTERVAL = 2000
 ROLLOVER = 10800 # Number of displayed data points
@@ -31,7 +34,7 @@ def update(x):
 
     source.stream({"x": [x], "y": [bankaAlis]}, rollover=ROLLOVER)
 
-p = figure(title="SATIS",plot_width=1800, plot_height=400,tools = "pan,wheel_zoom,box_zoom,reset,xpan,ypan,xwheel_zoom,ywheel_zoom,crosshair,hover,save")
+p = figure(title="BANKA ALIS",plot_width=1800, plot_height=400,tools = "pan,wheel_zoom,box_zoom,reset,xpan,ypan,xwheel_zoom,ywheel_zoom,crosshair,hover,save")
 p.background_fill_color = 'black'
 p.background_fill_alpha = 0.2
 p.line("x", "y", source=source,color='navy')
