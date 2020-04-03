@@ -34,9 +34,14 @@ def update(x):
     
     print("%.2f" % bankaAlis + " - " +"%.2f" % bankaSatis )
 
-    if bankaSatis < 331.0:
+    if bankaSatis < 333.5:
         playsound('alarm.mp3')
         pass
+
+    if bankaAlis > 340.0:
+        #playsound('alarm.mp3')
+        pass
+
 
     verileriLogla.write("%.2f" % bankaAlis +"+"+ "%.2f" % bankaSatis + "\n")
     verileriLogla.close()
